@@ -15,6 +15,7 @@ $(() => {
   };
 
   var addTodo = (todo) => {
+    console.log(todo);
     $('#todos').append(renderTodo(todo));
   };
 
