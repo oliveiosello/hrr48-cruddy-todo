@@ -7,11 +7,46 @@ var items = {};
 
 // Public API - Fix these CRUD functions ///////////////////////////////////////
 
+//CREATE CALLBACK
+// var addTodo = (todo) => {
+//   console.log(todo);
+//   $('#todos').append(renderTodo(todo));
+// };
+// './data/`${id}`
+//fs.writefile('./data', text,  ,  callback)
+//                 ^ name of file
+
+//exports.counterFile = path.join(__dirname, 'counter.txt');
+// `./data/${id}`;
 exports.create = (text, callback) => {
-  var id = counter.getNextUniqueId();
-  items[id] = text;
-  callback(null, { id, text });
+  counter.getNextUniqueId(id = (err) => {
+  //filePath = path.join('/datastore/data', id.toString());
+    if (err) {
+      console.log('id is not working');
+    } else {
+      fs.writeFile(`./data/${id}`, text, (err) => {
+        if (err) {
+          console.log('we made it this far!');
+        } else {
+          fs.readFile(`./data/${id}`, (err) => {
+            if (err) {
+              console.log('hello there');
+            } else {
+              callback(null, { id: text });
+            }
+          });
+        }
+        // items[id] = text;
+        // callback(null, { id, text });
+
+      });
+    }
+  });
 };
+//new todo is saved in own file
+//somehow create a path inside of data directory
+//id is encoded in file name
+//text only in file
 
 exports.readAll = (callback) => {
   var data = _.map(items, (text, id) => {
